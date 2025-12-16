@@ -4,7 +4,7 @@
 пробуйте!
 __________________
 # запуск.
-### пропишите в терминале: `git clone https://github.com/ShishkinKotik/CPP`
+### пропишите в терминале: `git clone https://github.com/DeltaDevSys/CPP`
 ### потом: `cd CPP/terminal`, `mkdir bin`, `g++ terminal.cpp -o bin/term`
 ### и последний шаг `bin/term`.
 ____________________
