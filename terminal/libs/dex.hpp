@@ -22,6 +22,7 @@ using namespace std;
 #define MAX_LINE_LENGTH 1024
 #define MFNL 256
 
+void addFile(char fileName[MFNL]);
 void displayFile(char fileName[MFNL]);
 void editorLogo();
 void editor();
