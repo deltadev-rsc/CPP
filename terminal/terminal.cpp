@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 #include <stdio.h>
-#include "./libs/dex.h"
+#include "./libs/dex.hpp"
 
 /* constants */
 #define MAX_DISK_MEMORY 32768
@@ -106,39 +106,6 @@ int main()
         }
 
         else if (command == "edit") {
-           /* cout << T_CYAN << "[редактор]" << T_RESET << endl;
-            
-            int c, nl, nw, nc, state;
-
-            char mode;
-
-            state = OUT;
-            nl = nw = nc = 0;
-            
-            cout << T_CYAN << "" << T_RESET <<  endl;
-
-            while ((c = getchar()) != EOF) 
-            {   cin >> mode;  
-                if (mode == 'w') {
-                    ++nc;
-
-                    if (c == '\n')
-                      ++nl;
-                    if (c == ' ' || c == '\n' || c == '\t') 
-                        state = OUT;
-                    else if (state == OUT) {
-                        state = IN;
-                        ++nw;
-                    }
-                }
-
-                else if (mode == 'q') {
-                    cout << T_CYAN << "[выход из редактора]" << T_RESET << endl;
-                    break;
-                }
-            }
-            cout << nl << nw << nc << endl;
-            */
             editor();
         }
 
