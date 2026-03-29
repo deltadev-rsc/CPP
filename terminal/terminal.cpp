@@ -4,17 +4,8 @@
 */
 #include <iostream>
 #include <string>
-#include <vector>
 #include <stdio.h>
-#include "libs/dex.hpp"
-
-/* colors */
-#define T_GREEN "\033[0;32m"
-#define T_RED   "\033[0;31m"
-#define T_CYAN  "\033[0;36m"
-#define T_BLUE  "\033[0;34m"
-#define T_YELLOW "\033[1;33m"
-#define T_RESET "\033[0m"
+#include "./libs/dex.h"
 
 /* constants */
 #define MAX_DISK_MEMORY 32768
@@ -115,7 +106,7 @@ int main()
         }
 
         else if (command == "edit") {
-            cout << T_CYAN << "[редактор]" << T_RESET << endl;
+           /* cout << T_CYAN << "[редактор]" << T_RESET << endl;
             
             int c, nl, nw, nc, state;
 
@@ -147,18 +138,20 @@ int main()
                 }
             }
             cout << nl << nw << nc << endl;
+            */
+            editor();
         }
 
         else if (command == "fetch") {
             cout << T_CYAN << "info of OS" << T_RESET << endl;
             
             fetch info = {
-                .user_name = "delta-dev",
+                .user_name = "user@host",
                 .os_title = "Phoenix Shel Sub-System",
                 .host_name = "laptop",
-                .cpu = "intel core i5 7200U",
-                .gpu = "Randeon M300",
-                .disk_memory = 132
+                .cpu = "kartofan procyk",
+                .gpu = "ventilator 300",
+                .disk_memory = 128
             };
 
             terms terms_db = {
