@@ -1,6 +1,8 @@
+#include "libs/dex.hpp"
 #include <cstdio>
 #include <iostream>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 using namespace std;
@@ -50,6 +52,21 @@ void displayFile(char fileName[MFNL])
     isDisplaying = 0;
 }
 
+void addFile(char fileName[MFNL])
+{
+    int isCreated = 0;
+    FILE * file = fopen(fileName, "a");
+
+    if (file == NULL) {
+        cout << T_RED << "[FAILED TO CREATE FILE!]" << T_RESET << endl;
+        isCreated = 0;
+    }
+    else {
+        fclose(file);
+        isCreated = 1;
+    }
+}
+
 void editorLogo()
 {
     cout << T_MAGENTA << "████████        ███████     █       █   ██  ████████        ███████" << T_RESET << endl;
@@ -77,6 +94,7 @@ void editor()
     cout << "[input file name to edit]" << endl;
     cin >> fileName;
     getchar();
+    addFile(fileName);
 
     file = fopen(fileName, "r");
     if (file == NULL) {
