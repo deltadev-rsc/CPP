@@ -77,18 +77,29 @@ contains
         
         character(len=4096) :: line
         character(len=512) :: file_name
+        character(len=4) :: exit_key
         integer :: io, stat
         logical :: exists
 
         print *, 'Welcome to the FortMini Editor!'
         print *, 'Input the file name: '
         read(*,*) file_name
-        open(newunit=io, file=file_name)
         inquire(file=file_name, exist=exists)
         if (exists) then
             print *, 'File: ', file_name, 'is not found!'
         else 
-            print *, 'start inputing the text'
+            open(newunit=io, file=file_name, action="write")
+            print *, 'start inputing the text: '
+            do while (.true.) 
+                read (*,*) line
+                read(*,*) exit_key
+                if (exit_key == 'E') then
+                    exit 
+                else 
+                    continue
+                end if
+            end do
+            close(io)
         end if
     end subroutine editor 
 
