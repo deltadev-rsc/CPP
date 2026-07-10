@@ -16,7 +16,6 @@ program cmd
 
         if (command == 'help') then
             ! на большее фантазии не хватило
-            
             print *, '|=========================================================|'
             print *, '| 1.help - output all commands                            |'
             print *, '| 2.calc - run the calculator                             |'
@@ -78,6 +77,7 @@ contains
         character(len=4096) :: line
         character(len=512) :: file_name
         character(len=4) :: exit_key
+        character(len=6) :: mode
         integer :: io, stat
         logical :: exists
 
@@ -85,20 +85,30 @@ contains
         print *, 'Input the file name: '
         read(*,*) file_name
         inquire(file=file_name, exist=exists)
+        
         if (exists) then
             print *, 'File: ', file_name, 'is not found!'
         else 
             open(newunit=io, file=file_name, action="write")
             print *, 'start inputing the text: '
+            
             do while (.true.) 
-                read (*,*) line
-                read(*,*) exit_key
-                if (exit_key == 'E') then
-                    exit 
-                else 
-                    continue
+                print *, 'Input the edit mode["w": write, "r": read, "quit"]: '
+                read(*,*) mode
+                if (mode == 'w') then 
+                    do while (.true.)
+                        read(*,*) line 
+                        read(*,*) exit_key
+                        if (exit_key == 'Q') then 
+                            exit
+                            close(io)
+                        else 
+                            continue 
+                        end if
+                    end do 
                 end if
             end do
+            
             close(io)
         end if
     end subroutine editor 
