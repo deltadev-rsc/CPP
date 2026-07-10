@@ -73,11 +73,11 @@ contains
 
     subroutine editor()
         implicit none
-        
+
         character(len=4096) :: line
         character(len=512) :: file_name
-        character(len=4) :: exit_key
-        character(len=6) :: mode
+        character(len=1) :: exit_key
+        character(len=5) :: mode
         integer :: io, stat
         logical :: exists
 
@@ -85,32 +85,29 @@ contains
         print *, 'Input the file name: '
         read(*,*) file_name
         inquire(file=file_name, exist=exists)
-        
+
         if (exists) then
-            print *, 'File: ', file_name, 'is not found!'
-        else 
-            open(newunit=io, file=file_name, action="write")
-            print *, 'start inputing the text: '
-            
-            do while (.true.) 
-                print *, 'Input the edit mode["w": write, "r": read, "quit"]: '
-                read(*,*) mode
-                if (mode == 'w') then 
-                    do while (.true.)
-                        read(*,*) line 
-                        read(*,*) exit_key
-                        if (exit_key == 'Q') then 
-                            exit
-                            close(io)
-                        else 
-                            continue 
-                        end if
-                    end do 
-                end if
-            end do
-            
-            close(io)
+            print *, 'File already exists! Overwrite? (y/n)'
+            read(*,*) exit_key
+            if (exit_key /= 'y' .and. exit_key /= 'Y') then
+                return
+            end if
         end if
-    end subroutine editor 
+
+        open(newunit=io, file=file_name, action="write", status="replace")
+
+        print *, 'Start inputing the text (enter "Q" to save and exit):'
+
+        do
+            read(*, '(A)') line
+            if (trim(line) == 'Q') then
+                exit
+            end if
+            write(io, '(A)') trim(line)
+        end do
+
+        close(io)
+        print *, 'File saved as: ', trim(file_name)
+    end subroutine editor
 
 end program cmd
