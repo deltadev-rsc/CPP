@@ -28,26 +28,26 @@ func GetUserName() (string, error) {
 }
 
 func GetHostName() (string, error) {
-	cmd := exec.Command("uname -n")
+	cmd := exec.Command("uname", "-n")
 	output, err := cmd.Output()
 	
 	if err != nil {
 		return "", fmt.Errorf("ошибка при выполнении команды: %v", err)
 	}
 
-	hostname := string(output[:len(output) - 1])
+	hostname := strings.TrimSpace(string(output))
 	return hostname, nil 
 }
 
 func GetOperatingSystemName() (string, error) {
-	cmd := exec.Command("uname -n && uname -o")
+	cmd := exec.Command("uname", "-o")
 	output, err := cmd.Output()
 
 	if err != nil {
 		return "", fmt.Errorf("ошибка при выполнении команды: %v", err)
 	}
 
-	osname := string(output[:len(output) - 1])
+	osname := strings.TrimSpace(string(output))
 	return osname, nil
 }
 
