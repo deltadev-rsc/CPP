@@ -15,7 +15,7 @@ const BLUE_COLOR = "\x1b[34m"
 const MAGENTA_COLOR = "\x1b[35m"
 const CYAN_COLOR = "\x1b[36m"
 
-func GetUserName() (string, error) {
+func getUserName() (string, error) {
 	cmd := exec.Command("whoami")
 	output, err := cmd.Output()
 	
@@ -27,7 +27,7 @@ func GetUserName() (string, error) {
 	return username, nil
 }
 
-func GetHostName() (string, error) {
+func getHostName() (string, error) {
 	cmd := exec.Command("uname", "-n")
 	output, err := cmd.Output()
 	
@@ -39,7 +39,7 @@ func GetHostName() (string, error) {
 	return hostname, nil 
 }
 
-func GetOperatingSystemName() (string, error) {
+func getOperatingSystemName() (string, error) {
 	cmd := exec.Command("uname", "-o")
 	output, err := cmd.Output()
 
@@ -51,7 +51,7 @@ func GetOperatingSystemName() (string, error) {
 	return osname, nil
 }
 
-func GetKernel() (string, error) {
+func getKernel() (string, error) {
 	cmd := exec.Command("uname", "-sr")
 	output, err := cmd.Output()
 
@@ -63,7 +63,7 @@ func GetKernel() (string, error) {
 	return kernel, nil
 }
 
-func GetShell() (string) {
+func getShell() (string) {
 	shell := "SHELL"
 
 	if val := os.Getenv(shell); val != "" {
@@ -73,7 +73,7 @@ func GetShell() (string) {
 	return "Unknown"
 }
 
-func GetDesktopEnvironment() (string) {
+func getDesktopEnvironment() (string) {
 	vars := []string { "XDG_CURRENT_DESKTOP", "DESKTOP_SESSION", "GDMSESSION" }
 
 	for _, v := range vars {
@@ -85,13 +85,47 @@ func GetDesktopEnvironment() (string) {
 	return "Unknown"
 }
 
+func getInit() (string) {
+	cmd := exec.Command("ps", "-p", "1", "-o", "comm=")
+	output, err := cmd.Output()
+	
+	if err != nil {
+		return "Unknown"
+	}
+
+	init := strings.TrimSpace(string(output))
+
+	if init == "init" {
+		return refineInit()
+	}
+
+	return init
+}
+
+func refineInit() (string) {
+	if _, err := os.Stat("/run/openrc"); err == nil {
+		return "OpenRC"
+	}
+
+	if _, err := os.Stat("/var/service"); err == nil {
+		return "Runit"
+	}
+
+	if _, err := os.Stat("/etc/init.d"); err == nil {
+		return "SysVinit"
+	}
+
+	return "init (Unknown)"
+}
+
 func ArtixFetch() {
-	username, err := GetUserName()
-	hostname, err := GetHostName()
-	osname, err := GetOperatingSystemName()
-	kernel, err := GetKernel() 
-	shell := GetShell()
-	de_wm := GetDesktopEnvironment()
+	username, err := getUserName()
+	hostname, err := getHostName()
+	osname, err := getOperatingSystemName()
+	kernel, err := getKernel() 
+	shell := getShell()
+	de_wm := getDesktopEnvironment()
+	init := getInit()
 	if err != nil {
 		fmt.Println("Ошибащка: ", err)
 		return
@@ -106,7 +140,7 @@ func ArtixFetch() {
 	fmt.Println(CYAN_COLOR, "       ▟██▙    ▜██▙         ", RESET_COLOR, CYAN_COLOR,  " Kernel:",  kernel,   RESET_COLOR) 
 	fmt.Println(CYAN_COLOR, "      ▟██████▙    ▜▙        ", RESET_COLOR, CYAN_COLOR,  " Shell:",   shell,    RESET_COLOR) 
 	fmt.Println(CYAN_COLOR, "     ▟██████████▙           ", RESET_COLOR, CYAN_COLOR,  " DE/WM:",   de_wm,    RESET_COLOR)
-	fmt.Println(CYAN_COLOR, "    ▟████████▀    ▟██▙      ", RESET_COLOR, CYAN_COLOR,  "", RESET_COLOR)
+	fmt.Println(CYAN_COLOR, "    ▟████████▀    ▟██▙      ", RESET_COLOR, CYAN_COLOR,  " Init system:", init, RESET_COLOR)
 	fmt.Println(CYAN_COLOR, "   ▟█████▀      ▀█████▙     ", RESET_COLOR, CYAN_COLOR,  "", RESET_COLOR) 
 	fmt.Println(CYAN_COLOR, "  ▟██▀             ▜███▙    ", RESET_COLOR, RED_COLOR,  "█", GREEN_COLOR, "█", YELLOW_COLOR, "█", BLUE_COLOR, "█", MAGENTA_COLOR, "█", CYAN_COLOR, "█", RESET_COLOR)
 	fmt.Println(CYAN_COLOR, " ▟▀                    ▜▙   ", RESET_COLOR, )
