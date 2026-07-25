@@ -108,7 +108,7 @@ func ArtixFetch() {
 	fmt.Println(CYAN_COLOR, "     ▟██████████▙           ", RESET_COLOR, CYAN_COLOR,  " DE/WM:",   de_wm,    RESET_COLOR)
 	fmt.Println(CYAN_COLOR, "    ▟████████▀    ▟██▙      ", RESET_COLOR, CYAN_COLOR,  "", RESET_COLOR)
 	fmt.Println(CYAN_COLOR, "   ▟█████▀      ▀█████▙     ", RESET_COLOR, CYAN_COLOR,  "", RESET_COLOR) 
-	fmt.Println(CYAN_COLOR, "  ▟██▀             ▜███▙    ", RESET_COLOR, CYAN_COLOR,  "", RESET_COLOR)
+	fmt.Println(CYAN_COLOR, "  ▟██▀             ▜███▙    ", RESET_COLOR, RED_COLOR,  "█", GREEN_COLOR, "█", YELLOW_COLOR, "█", BLUE_COLOR, "█", MAGENTA_COLOR, "█", CYAN_COLOR, "█", RESET_COLOR)
 	fmt.Println(CYAN_COLOR, " ▟▀                    ▜▙   ", RESET_COLOR, )
 	fmt.Println("")
 }
